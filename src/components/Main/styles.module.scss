@@ -1,0 +1,25 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+@media screen and (max-width: 1200px) {
+  .main {
+    width: 800px;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .main {
+    width: 630px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .main {
+    width: 100%;
+  }
+}
