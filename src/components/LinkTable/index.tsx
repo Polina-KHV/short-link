@@ -6,8 +6,10 @@ import { useSelector } from 'react-redux';
 import { Dropdown } from 'react-bootstrap';
 import { useActions } from '../../hooks/useActions';
 import { handleSortLinks } from '../../utils';
+import Loader from '../Loader';
 
 const LinkTable: FC = () => {
+  const [loading, setLoading] = useState(true);
   const [width, setWidth] = useState(Number);
   const [sortButtonName, setSortButtonName] = useState('Сортировать');
   const [noLinks, setNoLinks] = useState('noData');
@@ -18,6 +20,7 @@ const LinkTable: FC = () => {
   const [visibleLinks, setVisibleLinks] = useState([]);
 
   useEffect(() => {
+    
     setVisibleLinks(links.slice(0, 10));
     if(links.length === 0) {setNoLinks('noLinks')}
     else {setNoLinks('links')}
@@ -26,7 +29,7 @@ const LinkTable: FC = () => {
   useEffect(() => {
     if(visibleLinks.length === links.length) {setAllLinksVisible(true)}
     else {setAllLinksVisible(false)}
-    
+    setLoading(false);
   }, [visibleLinks]) //eslint-disable-line
 
   function addVisibleLinks() {
@@ -54,10 +57,10 @@ const LinkTable: FC = () => {
 
   return (
     <>
-      {noLinks === 'noLinks' &&
+      {loading ? <Loader height='300' />
+      : noLinks === 'noLinks' ?
         <h3 className={styles['empty-message']}>Пока нет созданных ссылок</h3>
-      }
-      {noLinks === 'links' &&
+      : 
         <section className={styles['links-table']}>
           <div className={styles.header}>
             <h2 className={styles.title}>Таблица ссылок</h2>

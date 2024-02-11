@@ -28,6 +28,7 @@ const router = createBrowserRouter(
       />
     </Route>
   )
+  , {basename: "/short-link"}
 );
 
 export default router;

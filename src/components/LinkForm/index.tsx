@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { handleCreateLink } from '../../utils';
 import { useActions } from '../../hooks/useActions';
 import styles from './styles.module.scss';
+import Loader from '../Loader';
 
 interface ILinkForm {
   link: string,
@@ -11,6 +12,7 @@ interface ILinkForm {
 
 const LinkForm: FC = () => {
   const [shortLink, setShortLink] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const {setLinks} = useActions();
   const {
@@ -21,7 +23,8 @@ const LinkForm: FC = () => {
   } = useForm<ILinkForm>({});
 
   const onSubmit: SubmitHandler<ILinkForm> = (data) => {
-    handleCreateLink(data.link, setShortLink, reset, navigate, setLinks)
+    setLoading(true);
+    handleCreateLink(data.link, setShortLink, reset, navigate, setLinks, setLoading)
   };
 
   return (
@@ -43,13 +46,15 @@ const LinkForm: FC = () => {
         {errors?.link?.message}
       </span>
       <div className={styles.form__response}>
-        <Link
-          className={styles.form__link}
-          to={shortLink}
-          target='_blank'
-        >
-          {shortLink}
-        </Link>
+        { loading ? <Loader height='20' /> :
+          <Link
+            className={styles.form__link}
+            to={shortLink}
+            target='_blank'
+          >
+            {shortLink}
+          </Link>
+        }
       </div>
       <button className={styles.form__button}>Сократить</button>
     </form>

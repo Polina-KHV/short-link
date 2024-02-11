@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "baseUrl": "/short-link",
     "target": "es5",
     "lib": [
       "dom",

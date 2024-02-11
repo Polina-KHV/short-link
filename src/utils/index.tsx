@@ -48,7 +48,11 @@ function handleLogOut(logOut:Function) {
   localStorage.clear();
 }
 
-function getAuthData(navigate:Function, setLinks:Function) {
+function getAuthData(
+  navigate:Function,
+  setLinks:Function,
+  setLoading:Function
+  ) {
   getLinks()
   .then((res:any) => {
     setLinks(res);
@@ -58,6 +62,7 @@ function getAuthData(navigate:Function, setLinks:Function) {
     localStorage.clear();
     navigate('/signin', {replace: true})
   })
+  .finally(() => setLoading(false))
 }
 
 function handleCreateLink(
@@ -65,7 +70,8 @@ function handleCreateLink(
   setShortLink:Function,
   reset:Function,
   navigate:Function,
-  setLinks:Function
+  setLinks:Function,
+  setLoading:Function
 ) {
   createLink(link)
   .then((res:any) => {
@@ -73,14 +79,18 @@ function handleCreateLink(
     reset();
     })
   .then(() => {
-    getAuthData(navigate, setLinks)
+    getAuthData(navigate, setLinks, setLoading)
   })
   .catch((err) => {
     console.log(`Ошибка: ${err.status}`);
   })
 }
 
-function handleLinkClick(setClicks:Function, setLinkClick:Function, short:string) {
+function handleLinkClick(
+  setClicks:Function,
+  setLinkClick:Function,
+  short:string
+  ) {
   setClicks((state:number) => state + 1);
   setLinkClick(short)
 }
